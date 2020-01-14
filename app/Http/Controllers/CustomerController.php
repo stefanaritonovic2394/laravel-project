@@ -14,8 +14,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
-        return view('customer.index')->with('customers', $customers);
+        $active_customers = Customer::active(1)->get();
+        $inactive_customers = Customer::active(0)->get();
+//        $customers = Customer::where('active', 1)->get();
+        return view('customers.index', ['active_customers' => $active_customers, 'inactive_customers' => $inactive_customers]);
     }
 
     /**
@@ -25,7 +27,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customer.create');
+        return view('customers.create');
     }
 
     /**
@@ -37,14 +39,17 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'email' => 'required|email'
         ]);
 
         $customer = new Customer;
         $customer->name = $request->input('name');
+        $customer->email = $request->input('email');
+        $customer->active = $request->input('active') ? true : false;
         $customer->save();
 
-        return redirect('/customers')->with('success', 'Customer created');
+        return redirect()->route('customers.index')->with('success', 'Customer created');
     }
 
     /**
@@ -55,7 +60,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('customers.show', compact('customer'));
     }
 
     /**
@@ -66,7 +72,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -78,7 +85,18 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        $customer = Customer::find($id);
+        $customer->name = $request->input('name');
+        $customer->email = $request->input('email');
+        $customer->active = $request->input('active') ? true : false;
+        $customer->save();
+
+        return redirect()->route('customers.index')->with('success', 'Customer updated');
     }
 
     /**
@@ -89,6 +107,9 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer = Customer::find($id);
+        $customer->delete();
+
+        return redirect()->route('customers.index')->with('success', 'Customer deleted');
     }
 }

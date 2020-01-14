@@ -7,19 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ route('customers.index') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/users">Users</a>
+                <a class="nav-link" href="{{ route('users') }}">Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/customers">Customers</a>
+                <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/contact">Contact</a>
+                <a class="nav-link" href="{{ route('contact') }}">Contact</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
+                <a class="nav-link" href="{{ route('about') }}">About</a>
             </li>
         </ul>
     </div>

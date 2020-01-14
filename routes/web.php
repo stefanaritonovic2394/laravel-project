@@ -15,13 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/contact', 'PageController@contact')->name('contact');
+Route::get('/about', 'PageController@about')->name('about');
 
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/users', 'UserController@index');
+Route::get('/users', 'UserController@index')->name('users');
 Route::resource('customers', 'CustomerController');

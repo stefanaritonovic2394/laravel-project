@@ -5,3 +5,4 @@
 @section('content')
     <h1 class="">About Page</h1>
 @endsection
+

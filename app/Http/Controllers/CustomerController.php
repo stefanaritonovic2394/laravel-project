@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Http\Requests\CustomerRequest;
+use App\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    protected $customerRepository;
+
+    public function __construct(CustomerRepositoryInterface $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +23,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $active_customers = Customer::active(1)->get();
-        $inactive_customers = Customer::active(0)->get();
-//        $customers = Customer::where('active', 1)->get();
+        $active_customers = $this->customerRepository->active();
+        $inactive_customers = $this->customerRepository->inactive();
         return view('customers.index', ['active_customers' => $active_customers, 'inactive_customers' => $inactive_customers]);
     }
 
@@ -36,18 +44,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email'
-        ]);
-
-        $customer = new Customer;
-        $customer->name = $request->input('name');
-        $customer->email = $request->input('email');
-        $customer->active = $request->input('active') ? true : false;
-        $customer->save();
+        $validated = $request->validated();
+        $this->customerRepository->create($request->only('name', 'email', 'active'));
 
         return redirect()->route('customers.index')->with('success', 'Customer created');
     }
@@ -56,11 +56,11 @@ class CustomerController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
+        $customer = $this->customerRepository->find($id);
         return view('customers.show', compact('customer'));
     }
 
@@ -68,11 +68,11 @@ class CustomerController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
-        $customer = Customer::find($id);
+        $customer = $this->customerRepository->find($id);
         return view('customers.edit', compact('customer'));
     }
 
@@ -81,20 +81,12 @@ class CustomerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email'
-        ]);
-
-        $customer = Customer::find($id);
-        $customer->name = $request->input('name');
-        $customer->email = $request->input('email');
-        $customer->active = $request->input('active') ? true : false;
-        $customer->save();
+        $validated = $request->validated();
+        $this->customerRepository->update($request->only('name', 'email', 'active'), $id);
 
         return redirect()->route('customers.index')->with('success', 'Customer updated');
     }
@@ -103,13 +95,11 @@ class CustomerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        $customer = Customer::find($id);
-        $customer->delete();
-
+        $customer = $this->customerRepository->delete($id);
         return redirect()->route('customers.index')->with('success', 'Customer deleted');
     }
 }

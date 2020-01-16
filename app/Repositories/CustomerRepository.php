@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Customer;
 use App\Interfaces\CustomerRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
@@ -12,12 +13,12 @@ class CustomerRepository implements CustomerRepositoryInterface
         return Customer::all();
     }
 
-    public function active()
+    public function active() : Collection
     {
         return Customer::active(1)->get();
     }
 
-    public function inactive()
+    public function inactive() : Collection
     {
         return Customer::active(0)->get();
     }

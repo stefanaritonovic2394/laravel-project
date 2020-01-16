@@ -3,13 +3,14 @@
 @section('content')
     <h1>Create Customer</h1>
     {!! Form::open(['action' => 'CustomerController@store', 'method' => 'POST']) !!}
+        {{Form::hidden('active', '0')}}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
-            {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Enter name'])}}
+            {{Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Enter name'])}}
         </div>
         <div class="form-group">
             {{Form::label('email', 'Email')}}
-            {{Form::text('email', '', ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
+            {{Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
         </div>
         <div class="form-group">
             {{Form::label('active', 'Active')}}

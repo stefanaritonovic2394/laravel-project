@@ -19,4 +19,13 @@ Route::get('/contact', 'PageController@contact')->name('contact');
 Route::get('/about', 'PageController@about')->name('about');
 
 Route::get('/users', 'UserController@index')->name('users');
+
+Route::get('/companies', 'CompanyController@index')->name('companies.index');
+Route::get('/companies/create', 'CompanyController@create')->name('companies.create');
+Route::get('/companies/{company}', 'CompanyController@show')->name('companies.show');
+Route::get('/companies/{company}/edit', 'CompanyController@edit')->name('companies.edit');
+Route::post('/companies', 'CompanyController@store')->name('companies.store');
+Route::put('/companies/{company}', 'CompanyController@update')->name('companies.update');
+Route::delete('/companies/{company}', 'CompanyController@destroy')->name('companies.destroy');
+
 Route::resource('customers', 'CustomerController');

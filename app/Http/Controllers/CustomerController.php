@@ -35,7 +35,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customers.create');
+        $companies = $this->customerRepository->allCompanies();
+        return view('customers.create', compact('companies'));
     }
 
     /**
@@ -47,7 +48,7 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $validated = $request->validated();
-        $this->customerRepository->create($request->only('name', 'email', 'active'));
+        $this->customerRepository->create($validated);
 
         return redirect()->route('customers.index')->with('success', 'Customer created');
     }
@@ -86,7 +87,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, $id)
     {
         $validated = $request->validated();
-        $this->customerRepository->update($request->only('name', 'email', 'active'), $id);
+        $this->customerRepository->update($validated, $id);
 
         return redirect()->route('customers.index')->with('success', 'Customer updated');
     }

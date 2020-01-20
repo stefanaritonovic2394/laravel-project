@@ -2,14 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Customer;
+use App\Company;
 use Faker\Generator as Faker;
 
-$factory->define(Customer::class, function (Faker $faker) {
+$factory->define(Company::class, function (Faker $faker) {
     return [
-        'company_id' => factory(\App\Company::class),
         'name' => $faker->name,
+        'address' => $faker->address,
         'email' => $faker->safeEmail,
-        'active' => $faker->boolean,
     ];
 });

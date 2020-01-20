@@ -14,7 +14,7 @@ class AddUniqueEmailToCustomersTable extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->string('email')->unique();
+//            $table->string('email')->unique();
         });
     }
 
@@ -26,7 +26,7 @@ class AddUniqueEmailToCustomersTable extends Migration
     public function down()
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('email');
+//            $table->dropColumn('email');
         });
     }
 }

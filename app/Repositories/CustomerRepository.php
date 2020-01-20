@@ -2,44 +2,26 @@
 
 namespace App\Repositories;
 
+use App\Abstracts\AbstractRepository;
 use App\Customer;
 use App\Interfaces\CustomerRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class CustomerRepository implements CustomerRepositoryInterface
+class CustomerRepository extends AbstractRepository implements CustomerRepositoryInterface
 {
-    public function all()
+    public function __construct()
     {
-        return Customer::all();
+        $this->setModel();
     }
 
-    public function active() : Collection
+    public function setModel()
     {
-        return Customer::active(1)->get();
+        $this->model = new Customer();
     }
 
-    public function inactive() : Collection
+    public function allCompanies() : Collection
     {
-        return Customer::active(0)->get();
+        return $this->model->company()->get();
     }
 
-    public function find($id)
-    {
-        return Customer::find($id);
-    }
-
-    public function create(array $data)
-    {
-        Customer::create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        Customer::find($id)->update($data);
-    }
-
-    public function delete($id)
-    {
-        Customer::destroy($id);
-    }
 }

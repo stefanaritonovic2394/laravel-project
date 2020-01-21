@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Customer;
 use App\Http\Requests\CustomerRequest;
 use App\Interfaces\CustomerRepositoryInterface;
@@ -25,7 +26,7 @@ class CustomerController extends Controller
     {
         $active_customers = $this->customerRepository->active();
         $inactive_customers = $this->customerRepository->inactive();
-        return view('customers.index', ['active_customers' => $active_customers, 'inactive_customers' => $inactive_customers]);
+        return view('customers.index', compact('active_customers', 'inactive_customers'));
     }
 
     /**
@@ -35,8 +36,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $companies = $this->customerRepository->allCompanies();
-        return view('customers.create', compact('companies'));
+        $select = Company::pluck('name', 'id');
+        $active = Customer::pluck('active');
+        return view('customers.create', compact('select', 'active'));
     }
 
     /**
@@ -74,7 +76,9 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = $this->customerRepository->find($id);
-        return view('customers.edit', compact('customer'));
+        $selected = Company::pluck('name', 'id');
+        $active = Customer::pluck('active');
+        return view('customers.edit', compact('customer', 'selected', 'active'));
     }
 
     /**
@@ -86,6 +90,7 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, $id)
     {
+//        dd($request->all(), $id);
         $validated = $request->validated();
         $this->customerRepository->update($validated, $id);
 

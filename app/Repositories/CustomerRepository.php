@@ -19,9 +19,19 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
         $this->model = new Customer();
     }
 
-    public function allCompanies() : Collection
+    public function active(): Collection
     {
-        return $this->model->company()->get();
+        return $this->model::active(1)->get();
     }
+
+    public function inactive(): Collection
+    {
+        return $this->model::active(0)->get();
+    }
+
+//    public function allCompanies() : Collection
+//    {
+//        return $this->model->company()->get();
+//    }
 
 }

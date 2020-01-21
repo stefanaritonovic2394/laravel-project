@@ -10,6 +10,14 @@ class Customer extends Model
         'active' => 0
     ];
 
+    public function getActiveAttribute($value)
+    {
+        return [
+            0 => 'Inactive',
+            1 => 'Active',
+        ][$value];
+    }
+
     protected $fillable = [
         'name', 'email', 'active', 'company_id'
     ];

@@ -22,16 +22,6 @@ abstract class AbstractRepository
         return $this->model::all();
     }
 
-    public function active(): Collection
-    {
-        return $this->model::active(1)->get();
-    }
-
-    public function inactive(): Collection
-    {
-        return $this->model::active(0)->get();
-    }
-
     public function create(array $data)
     {
         $this->model::create($data);

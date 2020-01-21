@@ -18,7 +18,7 @@ class CreateCustomersTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('email');
-            $table->boolean('active');
+            $table->integer('active');
             $table->timestamps();
 
             $table->foreign('company_id')

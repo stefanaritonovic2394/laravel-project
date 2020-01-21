@@ -12,8 +12,12 @@
             {{Form::text('email', $customer->email, ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
         </div>
         <div class="form-group">
-            {{Form::label('active', 'Active')}}
-            {{Form::checkbox('active', $customer->active, ['class' => 'form-control'])}}
+            {{Form::label('company_id', 'Company')}}
+            {{Form::select('company_id', $selected, $customer->company->id, ['class' => 'form-control', 'placeholder' => 'Select company'])}}
+        </div>
+        <div class="form-group">
+            {{Form::label('active', 'Status')}}
+            {{Form::select('active', $active, null, ['class' => 'form-control', 'placeholder' => 'Select status'])}}
         </div>
         {{Form::hidden('_method', 'PUT')}}
         {{Form::submit('Edit', ['class' => 'btn btn-primary btn-block'])}}

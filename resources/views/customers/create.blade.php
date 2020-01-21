@@ -3,7 +3,6 @@
 @section('content')
     <h1>Create Customer</h1>
     {!! Form::open(['action' => 'CustomerController@store', 'method' => 'POST']) !!}
-        {{Form::hidden('active', '0')}}
         <div class="form-group">
             {{Form::label('name', 'Name')}}
             {{Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Enter name'])}}
@@ -12,15 +11,17 @@
             {{Form::label('email', 'Email')}}
             {{Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
         </div>
+{{--        @php $select = []; @endphp--}}
+{{--        @foreach ($companies as $company)--}}
+{{--            {{ $select[$company->id] = $company->name }}--}}
+{{--        @endforeach--}}
         <div class="form-group">
-            {{Form::label('company', 'Company')}}
-            @foreach($companies as $company)
-                {{Form::select('company', ['L' => $company->name, 'S' => 'Small'], null, ['class' => 'form-control', 'placeholder' => 'Select company'])}}
-            @endforeach
+            {{Form::label('company_id', 'Company')}}
+            {{Form::select('company_id', $select, null, ['class' => 'form-control', 'placeholder' => 'Select company'])}}
         </div>
         <div class="form-group">
-            {{Form::label('active', 'Active')}}
-            {{Form::checkbox('active', 1, ['class' => 'form-control'])}}
+            {{Form::label('active', 'Status')}}
+            {{Form::select('active', $active, null, ['class' => 'form-control', 'placeholder' => 'Select status'])}}
         </div>
         {{Form::submit('Create', ['class' => 'btn btn-primary btn-block'])}}
     {!! Form::close() !!}

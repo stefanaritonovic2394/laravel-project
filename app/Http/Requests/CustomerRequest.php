@@ -27,13 +27,16 @@ class CustomerRequest extends FormRequest
             return [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:customers',
-                'active' => 'required|boolean'
+                'active' => 'required|integer',
+                'company_id' => 'required',
             ];
         }
 
         return [
             'name' => 'required|string',
             'email' => 'required|email',
+            'active' => 'required|integer',
+            'company_id' => 'required',
         ];
     }
 

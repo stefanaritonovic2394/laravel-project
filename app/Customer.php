@@ -7,19 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $attributes = [
-        'active' => 0
+        'active' => 1
     ];
 
     public function getActiveAttribute($value)
     {
+        return $this->status()[$value];
+    }
+
+    public function status(){
         return [
             0 => 'Inactive',
             1 => 'Active',
-        ][$value];
+        ];
     }
 
     protected $fillable = [
         'name', 'email', 'active', 'company_id'
+    ];
+
+    protected $casts = [
+        'active' => 'integer',
+        'company_id' => 'integer'
     ];
 
     public function scopeActive($query, $arg)

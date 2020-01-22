@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {{--<h1>Show Customer</h1>--}}
     <a href="{{route('customers.index')}}" class="btn btn-info mt-2">Go back</a>
     <div class="card mt-3" style="">
         <div class="card-header">Customer</div>
@@ -10,10 +9,11 @@
             <p class="card-text">{{$customer->email}}</p>
             <a href="{{route('customers.edit', $customer->id)}}" class="btn btn-warning">Edit</a>
 
-            {!! Form::open(['action' => ['CustomerController@destroy', $customer->id], 'method' => 'POST', 'class' => 'float-right']) !!}
-                {{Form::hidden('_method', 'DELETE')}}
-                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-            {!! Form::close() !!}
+            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" class="float-right">
+                @csrf
+                @method('DELETE')
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
         </div>
     </div>
 @endsection

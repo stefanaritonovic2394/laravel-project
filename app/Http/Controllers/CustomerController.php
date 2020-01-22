@@ -36,9 +36,10 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $select = Company::pluck('name', 'id');
-        $active = Customer::pluck('active');
-        return view('customers.create', compact('select', 'active'));
+        $customer = new Customer;
+//        $select = Company::pluck('name', 'id');
+        $companies = Company::all();
+        return view('customers.create', compact('customer', 'companies'));
     }
 
     /**
@@ -76,9 +77,9 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = $this->customerRepository->find($id);
+        $companies = Company::all();
         $selected = Company::pluck('name', 'id');
-        $active = Customer::pluck('active');
-        return view('customers.edit', compact('customer', 'selected', 'active'));
+        return view('customers.edit', compact('customer', 'selected', 'companies'));
     }
 
     /**

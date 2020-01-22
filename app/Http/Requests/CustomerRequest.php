@@ -28,15 +28,15 @@ class CustomerRequest extends FormRequest
                 'name' => 'required|string',
                 'email' => 'required|email|unique:customers',
                 'active' => 'required|integer',
-                'company_id' => 'required',
+                'company_id' => 'required|integer',
             ];
         }
 
         return [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:customers',
             'active' => 'required|integer',
-            'company_id' => 'required',
+            'company_id' => 'required|integer',
         ];
     }
 
@@ -45,6 +45,8 @@ class CustomerRequest extends FormRequest
         return [
             'name.required' => 'Name is required!',
             'email.required' => 'Email is required!',
+            'active.required' => 'Status is required!',
+            'company_id.required' => 'Company is required!',
         ];
     }
 }

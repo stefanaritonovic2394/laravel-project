@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->integer('active');
             $table->timestamps();
 

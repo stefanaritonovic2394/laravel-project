@@ -2,27 +2,34 @@
 
 @section('content')
     <h1>Create Customer</h1>
-    {!! Form::open(['action' => 'CustomerController@store', 'method' => 'POST']) !!}
+    <form action="{{ route('customers.store') }}" method="POST">
+        @csrf
         <div class="form-group">
-            {{Form::label('name', 'Name')}}
-            {{Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Enter name'])}}
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" placeholder="Enter name">
         </div>
         <div class="form-group">
-            {{Form::label('email', 'Email')}}
-            {{Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
-        </div>
-{{--        @php $select = []; @endphp--}}
-{{--        @foreach ($companies as $company)--}}
-{{--            {{ $select[$company->id] = $company->name }}--}}
-{{--        @endforeach--}}
-        <div class="form-group">
-            {{Form::label('company_id', 'Company')}}
-            {{Form::select('company_id', $select, null, ['class' => 'form-control', 'placeholder' => 'Select company'])}}
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter email address">
         </div>
         <div class="form-group">
-            {{Form::label('active', 'Status')}}
-            {{Form::select('active', $active, null, ['class' => 'form-control', 'placeholder' => 'Select status'])}}
+            <label for="company_id">Company</label>
+            <select id="company_id" name="company_id" class="form-control">
+                <option value="" selected disabled>Select company</option>
+                @foreach($companies as $company)
+                    <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                @endforeach
+            </select>
         </div>
-        {{Form::submit('Create', ['class' => 'btn btn-primary btn-block'])}}
-    {!! Form::close() !!}
+        <div class="form-group">
+            <label for="active">Status</label>
+            <select id="active" name="active" class="form-control">
+                <option value="" selected disabled>Select status</option>
+                @foreach($customer->status() as $statusKey => $statusVal)
+                    <option value="{{ $statusKey }}" {{ old('active', $customer->status()) == $statusKey ? 'selected' : '' }}>{{ $statusVal }}</option>
+                @endforeach
+            </select>
+        </div>
+        <input type="submit" class="btn btn-primary btn-block" value="Create">
+    </form>
 @endsection

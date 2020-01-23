@@ -2,19 +2,20 @@
 
 @section('content')
     <h1>Create Company</h1>
-    {!! Form::open(['action' => 'CompanyController@store', 'method' => 'POST']) !!}
+    <form action="{{ route('companies.store') }}" method="POST">
+        @csrf
         <div class="form-group">
-            {{Form::label('name', 'Name')}}
-            {{Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Enter name'])}}
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" placeholder="Enter name">
         </div>
         <div class="form-group">
-            {{Form::label('address', 'Address')}}
-            {{Form::text('address', old('address'), ['class' => 'form-control', 'placeholder' => 'Enter your address'])}}
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}" placeholder="Enter your address">
         </div>
         <div class="form-group">
-            {{Form::label('email', 'Email')}}
-            {{Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Enter email address'])}}
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter email address">
         </div>
-        {{Form::submit('Create', ['class' => 'btn btn-primary btn-block'])}}
-    {!! Form::close() !!}
+        <input type="submit" class="btn btn-primary btn-block" value="Create">
+    </form>
 @endsection

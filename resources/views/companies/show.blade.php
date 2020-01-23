@@ -17,10 +17,11 @@
             @endforeach
             <a href="{{route('companies.edit', $company->id)}}" class="btn btn-warning">Edit</a>
 
-            {!! Form::open(['action' => ['CompanyController@destroy', $company->id], 'method' => 'POST', 'class' => 'float-right']) !!}
-                {{Form::hidden('_method', 'DELETE')}}
-                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-            {!! Form::close() !!}
+            <form action="{{ route('companies.destroy', $company->id) }}" method="POST" class="float-right">
+                @csrf
+                @method('DELETE')
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
         </div>
     </div>
 @endsection

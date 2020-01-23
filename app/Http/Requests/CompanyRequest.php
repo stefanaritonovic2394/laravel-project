@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CompanyRequest extends FormRequest
 {
@@ -27,15 +28,26 @@ class CompanyRequest extends FormRequest
             return [
                 'name' => 'required|string',
                 'address' => 'required|string',
-                'email' => 'required|email|unique:companies',
+                'email' => 'required|email',
+            ];
+        } elseif ($this->isMethod('PUT')) {
+            return [
+                'name' => 'required|string',
+                'address' => 'required|string',
+                'email' => 'required|email|' . Rule::unique('companies', 'email')->ignore($this->company),
             ];
         }
 
-        return [
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'email' => 'required|email',
-        ];
+        return [];
 
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required!',
+            'address.required' => 'Address is required!',
+            'email.required' => 'Email is required!',
+        ];
     }
 }

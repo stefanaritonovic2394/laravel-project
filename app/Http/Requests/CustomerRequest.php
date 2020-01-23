@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerRequest extends FormRequest
 {
@@ -26,18 +27,20 @@ class CustomerRequest extends FormRequest
         if ($this->isMethod('POST')) {
             return [
                 'name' => 'required|string',
-                'email' => 'required|email|unique:customers',
+                'email' => 'required|email',
                 'active' => 'required|integer',
                 'company_id' => 'required|integer',
             ];
+        } elseif ($this->isMethod('PUT')) {
+            return [
+                'name' => 'required|string',
+                'email' => 'required|email|' . Rule::unique('customers', 'email')->ignore($this->customer),
+                'active' => 'required|integer',
+                'company_id' => 'required|integer|exists:customers,company_id',
+            ];
         }
 
-        return [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:customers',
-            'active' => 'required|integer',
-            'company_id' => 'required|integer',
-        ];
+        return [];
     }
 
     public function messages()

@@ -29,3 +29,7 @@ Route::put('/companies/{company}', 'CompanyController@update')->name('companies.
 Route::delete('/companies/{company}', 'CompanyController@destroy')->name('companies.destroy');
 
 Route::resource('customers', 'CustomerController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

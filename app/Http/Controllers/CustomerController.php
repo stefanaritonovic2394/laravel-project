@@ -15,6 +15,7 @@ class CustomerController extends Controller
     public function __construct(CustomerRepositoryInterface $customerRepository)
     {
         $this->customerRepository = $customerRepository;
+        $this->middleware('auth');
     }
 
     /**
@@ -37,7 +38,6 @@ class CustomerController extends Controller
     public function create()
     {
         $customer = new Customer;
-//        $select = Company::pluck('name', 'id');
         $companies = Company::all();
         return view('customers.create', compact('customer', 'companies'));
     }
@@ -78,8 +78,7 @@ class CustomerController extends Controller
     {
         $customer = $this->customerRepository->find($id);
         $companies = Company::all();
-        $selected = Company::pluck('name', 'id');
-        return view('customers.edit', compact('customer', 'selected', 'companies'));
+        return view('customers.edit', compact('customer', 'companies'));
     }
 
     /**
@@ -91,7 +90,6 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, $id)
     {
-//        dd($request->all(), $id);
         $validated = $request->validated();
         $this->customerRepository->update($validated, $id);
 
@@ -106,7 +104,7 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer = $this->customerRepository->delete($id);
+        $this->customerRepository->delete($id);
         return redirect()->route('customers.index')->with('success', 'Customer deleted');
     }
 }

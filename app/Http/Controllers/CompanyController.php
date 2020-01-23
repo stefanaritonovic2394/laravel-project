@@ -13,6 +13,7 @@ class CompanyController extends Controller
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         $this->companyRepository = $companyRepository;
+        $this->middleware('auth');
     }
 
     public function index()

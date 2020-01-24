@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
-use App\Interfaces\CompanyRepositoryInterface;
+use App\Interfaces\RepositoryInterface;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     protected $companyRepository;
 
-    public function __construct(CompanyRepositoryInterface $companyRepository)
+    public function __construct(RepositoryInterface $companyRepository)
     {
         $this->companyRepository = $companyRepository;
         $this->middleware('auth');
@@ -57,7 +57,7 @@ class CompanyController extends Controller
 
     public function destroy($id)
     {
-        $customer = $this->companyRepository->delete($id);
+        $this->companyRepository->delete($id);
         return redirect()->route('companies.index')->with('success', 'Company deleted');
     }
 

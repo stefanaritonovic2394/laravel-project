@@ -2,11 +2,11 @@
 
 namespace App\Abstracts;
 
-use App\Customer;
+use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractRepository
+abstract class AbstractRepository implements RepositoryInterface
 {
     protected $model;
 
@@ -19,22 +19,22 @@ abstract class AbstractRepository
 
     public function all() : Collection
     {
-        return $this->model::all();
+        return $this->model->all();
     }
 
     public function create(array $data)
     {
-        $this->model::create($data);
+        $this->model->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        $this->model::findOrFail($id)->update($data);
+        $this->model->findOrFail($id)->update($data);
     }
 
     public function delete(int $id)
     {
-        $this->model::destroy($id);
+        $this->model->destroy($id);
     }
 
 }

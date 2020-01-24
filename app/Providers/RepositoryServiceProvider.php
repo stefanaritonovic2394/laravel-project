@@ -4,8 +4,7 @@ namespace App\Providers;
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
-use App\Interfaces\CompanyRepositoryInterface;
-use App\Interfaces\CustomerRepositoryInterface;
+use App\Interfaces\RepositoryInterface;
 use App\Repositories\CompanyRepository;
 use App\Repositories\CustomerRepository;
 use Illuminate\Support\ServiceProvider;
@@ -19,21 +18,14 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->when(CustomerController::class)
-            ->needs(CustomerRepositoryInterface::class)
-            ->give(function () {
-                return new CustomerRepository();
-            });
+        $this->app->bind(CustomerController::class, function ($app){
+            return new CustomerController($app->make(CustomerRepository::class), $app->make(CompanyRepository::class));
+        });
 
-        $this->app->when(CompanyController::class)
-            ->needs(CompanyRepositoryInterface::class)
-            ->give(function () {
-                return new CompanyRepository();
-            });
-//        $this->app->bind(
-//            CustomerRepositoryInterface::class,
-//            CustomerRepository::class
-//        );
+        $this->app->bind(CompanyController::class, function ($app){
+            return new CompanyController($app->make(CompanyRepository::class));
+        });
+
     }
 
     /**

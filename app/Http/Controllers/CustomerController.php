@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Customer;
 use App\Http\Requests\CustomerRequest;
-use App\Interfaces\CustomerRepositoryInterface;
+use App\Interfaces\RepositoryInterface;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     protected $customerRepository;
+    protected $companyRepository;
 
-    public function __construct(CustomerRepositoryInterface $customerRepository)
+    public function __construct(RepositoryInterface $customerRepository, RepositoryInterface $companyRepository)
     {
         $this->customerRepository = $customerRepository;
+        $this->companyRepository = $companyRepository;
         $this->middleware('auth');
     }
 
@@ -33,12 +35,13 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Customer $customer
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Customer $customer)
     {
-        $customer = new Customer;
-        $companies = Company::all();
+//        $customer = new Customer;
+        $companies = $this->companyRepository->all();
         return view('customers.create', compact('customer', 'companies'));
     }
 

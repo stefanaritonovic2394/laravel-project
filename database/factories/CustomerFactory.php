@@ -10,6 +10,6 @@ $factory->define(Customer::class, function (Faker $faker) {
         'company_id' => factory(\App\Company::class),
         'name' => $faker->name,
         'email' => $faker->safeEmail,
-        'active' => $faker->boolean,
+        'active' => $faker->randomDigitNotNull,
     ];
 });

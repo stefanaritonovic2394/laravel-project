@@ -18,7 +18,9 @@ Route::get('/', function () {
 Route::get('/contact', 'PageController@contact')->name('contact');
 Route::get('/about', 'PageController@about')->name('about');
 
-Route::get('/users', 'UserController@index')->name('users');
+Route::group(['middleware' => 'name:web'], function () {
+    Route::get('/users', 'UserController@index')->name('users');
+});
 
 Route::get('/companies', 'CompanyController@index')->name('companies.index');
 Route::get('/companies/create', 'CompanyController@create')->name('companies.create');

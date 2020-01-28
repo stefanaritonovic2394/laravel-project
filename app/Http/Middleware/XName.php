@@ -9,15 +9,15 @@ class XName
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param $name
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $name = 'x-name')
     {
-        $appName = config('app.name');
         $response = $next($request);
-        $response->headers->set('X-name', $appName);
+        $response->headers->set($name, config('app.name'));
         return $response;
     }
 }

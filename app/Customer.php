@@ -40,4 +40,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

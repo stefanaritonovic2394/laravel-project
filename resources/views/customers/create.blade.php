@@ -30,6 +30,15 @@
                 @endforeach
             </select>
         </div>
+        <div class="form-group">
+            <label for="role_id">Role</label>
+            <select id="role_id" name="role_id" class="form-control">
+                <option value="" selected disabled>Select role</option>
+                @foreach($roles as $role)
+                    <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                @endforeach
+            </select>
+        </div>
         <input type="submit" class="btn btn-primary btn-block" value="Create">
     </form>
 @endsection

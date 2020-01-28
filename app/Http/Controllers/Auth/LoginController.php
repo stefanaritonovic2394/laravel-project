@@ -43,13 +43,19 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            $this->username() => 'required|string',
-            'email' => 'required|email',
+            $this->username() => 'required|string|exists:users,' . $this->username() . ',active,1',
             'password' => 'required|string',
+        ], [
+            'password.required' => 'Password is required',
+            $this->username() . '.exists' => 'Email is not correct or your account must be active to login'
         ]);
-
-        if (Auth::attempt(['name' => $request->name, 'email' => $request->email, 'password' => $request->get('password'), 'active' => 0])) {
-            return redirect()->route('customers.index');
-        }
     }
+
+    protected function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials = array_merge($credentials, ['active' => 1]);
+        return $credentials;
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Company;
 use App\Customer;
 use App\Http\Requests\CustomerRequest;
 use App\Interfaces\RepositoryInterface;
+use App\Role;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -41,8 +42,9 @@ class CustomerController extends Controller
     public function create(Customer $customer)
     {
 //        $customer = new Customer;
+        $roles = Role::all();
         $companies = $this->companyRepository->all();
-        return view('customers.create', compact('customer', 'companies'));
+        return view('customers.create', compact('customer', 'companies', 'roles'));
     }
 
     /**

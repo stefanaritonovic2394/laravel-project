@@ -31,8 +31,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="role_id">Role</label>
-            <select id="role_id" name="role_id" class="form-control">
+            <label for="roles">Role</label>
+            <select id="roles" name="roles" class="form-control">
                 <option value="" selected disabled>Select role</option>
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>

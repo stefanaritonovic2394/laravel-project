@@ -12,10 +12,16 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::truncate();
+        factory(Role::class)->create();
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
-        Role::create(['name' => 'customer']);
+        factory(Role::class)->create([
+            'id' => Role::ROLES['user']['id'],
+            'name' => Role::ROLES['user']['name']
+        ]);
+
+        factory(Role::class)->create([
+            'id' => Role::ROLES['admin']['id'],
+            'name' => Role::ROLES['admin']['name']
+        ]);
     }
 }

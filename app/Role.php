@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    public $roles = [
-        'id' => [
-            1 => 'admin',
-            2 => 'user',
-            3 => 'customer'
-        ]
+    const ROLES = [
+        'admin' => ['id' => 1, 'name' => 'admin'],
+        'user' => ['id' => 2, 'name' => 'user'],
+        'customer' => ['id' => 3, 'name' => 'customer']
     ];
 
     public function users()
@@ -21,6 +19,6 @@ class Role extends Model
 
     public function customers()
     {
-        return $this->belongsToMany(Customer::class, 'customer_role');
+        return $this->belongsToMany(Customer::class, 'customer_role', 'role_id', 'customer_id');
     }
 }

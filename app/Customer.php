@@ -23,7 +23,7 @@ class Customer extends Model
     }
 
     protected $fillable = [
-        'name', 'email', 'active', 'company_id'
+        'name', 'email', 'active', 'company_id', 'role_id'
     ];
 
     protected $casts = [
@@ -43,6 +43,6 @@ class Customer extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'customer_role', 'customer_id', 'role_id');
     }
 }

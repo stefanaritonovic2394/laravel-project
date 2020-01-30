@@ -30,7 +30,7 @@ class CustomerRequest extends FormRequest
                 'email' => 'required|email',
                 'active' => 'required|integer',
                 'company_id' => 'required|integer',
-                'role_id' => 'required|integer',
+                'roles' => 'required|integer',
             ];
         } elseif ($this->isMethod('PUT')) {
             return [
@@ -51,7 +51,7 @@ class CustomerRequest extends FormRequest
             'email.required' => 'Email is required!',
             'active.required' => 'Status is required!',
             'company_id.required' => 'Company is required!',
-            'role_id.required' => 'Role is required!',
+            'roles.required' => 'Role is required!',
         ];
     }
 }

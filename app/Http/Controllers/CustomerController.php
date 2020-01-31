@@ -50,17 +50,17 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Customer $customer
      * @param CustomerRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Customer $customer, CustomerRequest $request)
+    public function store(CustomerRequest $request)
     {
-        $validated = $request->validated();
-        $this->customerRepository->create($validated);
-        if ($request->roles) {
-            $customer->roles()->attach($request->roles);
-        }
+        $attributes = $request->validated();
+        $customer = $this->customerRepository->create($attributes);
+        $this->customerRepository->attach($customer, $attributes);
+//        if ($request->rolesId) {
+//            $customer->roles()->attach($request->rolesId);
+//        }
 
         return redirect()->route('customers.index')->with('success', 'Customer created');
     }

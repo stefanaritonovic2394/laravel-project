@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Abstracts\AbstractRepository;
 use App\Customer;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class CustomerRepository extends AbstractRepository
@@ -26,6 +27,11 @@ class CustomerRepository extends AbstractRepository
     public function inactive(): Collection
     {
         return $this->model->active(0)->get();
+    }
+
+    public function attach(Customer $customer, array $data)
+    {
+        $customer->roles()->attach($data);
     }
 
 }
